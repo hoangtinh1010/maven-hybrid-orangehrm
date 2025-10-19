@@ -1,5 +1,9 @@
 package ui.orangehrm.user;
 
+//import các class/interface từ package khác
+import javaSDET.Topic_01_Keywords;
+
+//import thư viện
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,8 +16,13 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
+
+
+
+
 public class Login_01_DRY {
      WebDriver driver;
+     private Topic_01_Keywords topic1;
      WebDriverWait explicitWait;
 
     @BeforeClass
