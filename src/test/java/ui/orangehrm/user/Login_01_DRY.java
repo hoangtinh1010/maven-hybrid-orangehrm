@@ -55,7 +55,7 @@ public class Login_01_DRY {
     }
 
     @Test
-    public void Login_02_Invalid_Password() {
+    public void Login_03_Invalid_Password() {
         driver.findElement(By.name("username")).sendKeys("Admin");
         driver.findElement(By.name("password")).sendKeys("123456");
         driver.findElement(By.cssSelector("button[type='submit']")).click();
