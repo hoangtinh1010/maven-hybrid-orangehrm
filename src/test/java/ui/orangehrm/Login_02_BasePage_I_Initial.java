@@ -1,20 +1,25 @@
-package ui.orangehrm.user;
+package ui.orangehrm;
 
 //import các class/interface từ package khác
 
 import core.BasePage;
+import javaSDET.Topic_01_Keywords;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.time.Instant;
 
 
 //Cách 1: khai báo và khởi tao BasePage
-public class Login_02_BasePage_II_Static {
+public class Login_02_BasePage_I_Initial {
 
      private WebDriver driver;
      private BasePage basePage;
@@ -23,7 +28,7 @@ public class Login_02_BasePage_II_Static {
     @BeforeClass
     public void beforeClass() {
         driver = new FirefoxDriver();
-        basePage = basePage.getInstance();
+        basePage = new BasePage();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }

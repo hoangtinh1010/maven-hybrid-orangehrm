@@ -1,4 +1,4 @@
-package ui.orangehrm.user;
+package ui.orangehrm;
 
 //import các class/interface từ package khác
 
