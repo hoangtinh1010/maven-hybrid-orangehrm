@@ -6,6 +6,7 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageUIs.DashboardPageUI;
 
 import java.sql.DriverManager;
 import java.time.Duration;
@@ -357,6 +358,10 @@ public class BasePage {
     public List<WebElement>  waitListElementPresent(WebDriver driver, String locator) {
          return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
                 .until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByXpath(locator)));
+    }
+
+    public boolean isLoadingSpinnerDisappear(WebDriver driver) {
+        return waitListElementInvisible(driver, BasePageUI.ICON_LOADING);
     }
 
     private final int SHORT_TIMEOUT =10;

@@ -12,8 +12,7 @@ import java.time.Duration;
 
 public class BaseTest {
     WebDriver driver;
-
-
+    
     protected WebDriver getBrowserDriver(String browserName, String appURL) {
 //        Cach 1: Using if-else
 //        if (browserName.equalsIgnoreCase("firefox")) {
