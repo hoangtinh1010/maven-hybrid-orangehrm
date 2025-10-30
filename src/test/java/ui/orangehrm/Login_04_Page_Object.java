@@ -80,6 +80,6 @@ public class Login_04_Page_Object extends BaseTest {
 
     @AfterClass
     public void afterClass() {
-        driver.quit();
+        closeBrowser();
     }
 }

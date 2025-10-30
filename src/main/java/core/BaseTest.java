@@ -12,7 +12,7 @@ import java.time.Duration;
 
 public class BaseTest {
     WebDriver driver;
-    
+
     protected WebDriver getBrowserDriver(String browserName, String appURL) {
 //        Cach 1: Using if-else
 //        if (browserName.equalsIgnoreCase("firefox")) {
@@ -52,5 +52,12 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         return driver;
     }
+
+    public void closeBrowser() {
+        if (!(driver == null)) {
+            driver.quit();
+        }
+    }
+
 }
 
