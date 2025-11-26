@@ -10,10 +10,10 @@ public class DashboardPageObject extends BasePage {
     public DashboardPageObject(WebDriver driver) {
         this.driver = driver;
     }
-    public void clickToPIMMenu() {
+    public EmployeeListPageObject clickToPIMMenu() {
         waitElementClickable(driver, DashboardPageUI.PIM_MODULE);
         clickToElement(driver, DashboardPageUI.PIM_MODULE);
-
+        return PageGeneratorGeneric.getPage(EmployeeListPageObject.class, driver);
     }
     public boolean isLoadingSpinnerDisappear() {
         return isLoadingSpinnerDisappear(driver);

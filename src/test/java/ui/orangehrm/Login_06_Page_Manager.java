@@ -13,7 +13,7 @@ import pageObjects.*;
 
 
 //Cách 1: khai báo và khởi tao BasePage
-public class Login_04_Page_Object extends BaseTest {
+public class Login_06_Page_Manager extends BaseTest {
     private String appURL;
     //Follow nghiệp vụ: (1) Login to system -> (2) Dashboard: Navigate to PIM page
     // -> (3) Emloyee List:  Add Employee -> (4) Personal Detail: Verify ->Edit Employee

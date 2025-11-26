@@ -30,4 +30,8 @@ public class PersonalDetailPageObject extends BasePage {
         waitElementVisible(driver, PersonalDetailPageUI.DISPLAYED_FULLNAME);
         return getElementText(driver, PersonalDetailPageUI.DISPLAYED_FULLNAME);
     }
+
+    public ContactDetailPageObject openContactDetailsPage() {
+        return new ContactDetailPageObject(driver);
+    }
 }

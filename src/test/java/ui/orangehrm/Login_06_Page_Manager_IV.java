@@ -1,6 +1,6 @@
 package ui.orangehrm;
 
-//import các class/interface từ package khác
+
 
 import core.BaseTest;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import pageObjects.*;
 
 
-//Cách 1: khai báo và khởi tao BasePage
-public class Login_04_Page_Object extends BaseTest {
+//Cách 4: Dùng Page Generator Generic
+public class Login_06_Page_Manager_IV extends BaseTest {
     private String appURL;
     //Follow nghiệp vụ: (1) Login to system -> (2) Dashboard: Navigate to PIM page
     // -> (3) Emloyee List:  Add Employee -> (4) Personal Detail: Verify ->Edit Employee
@@ -23,7 +23,7 @@ public class Login_04_Page_Object extends BaseTest {
     public void beforeClass(String browserName, String appURL) {
         this.appURL = appURL;
         driver = getBrowserDriver(browserName, appURL);
-        loginPage = new LoginPageObject(driver);
+        PageGeneratorGeneric.getPage(LoginPageObject.class, driver);
         username= "hoangtinh";
         password= "Tinh@@111";
         firstName= "Automation";
@@ -33,33 +33,25 @@ public class Login_04_Page_Object extends BaseTest {
     @Test
     public void Employee_01_CreateNewEmployee() {
 
-        //Action on Login Page
+
         loginPage.enterToUsernameTextbox(username);
         loginPage.enterToPasswordTextbox(password);
-        loginPage.clickToLoginButton();
+        dashboardPage = loginPage.clickToLoginButton();
 
-        //Action of Dashboard Page
-        dashboardPage = new DashboardPageObject(driver);
         Assert.assertTrue(dashboardPage.isLoadingSpinnerDisappear(driver));
 
-        dashboardPage.clickToPIMMenu();
-
-        //Action of Employee List Page
-        employeeListPage = new EmployeeListPageObject(driver);
+        employeeListPage = dashboardPage.clickToPIMMenu();
         Assert.assertTrue(employeeListPage.isLoadingSpinnerDisappear(driver));
-        employeeListPage.clickToAddEmployeeButton();
 
-        //Action of Add Employee Page
-        addEmployeePage = new AddEmployeePageObject(driver);
+        addEmployeePage = employeeListPage.clickToAddEmployeeButton();
         Assert.assertTrue(addEmployeePage.isLoadingSpinnerDisappear(driver));
 
         addEmployeePage.enterToFirstNameTextbox(firstName);
         addEmployeePage.enterToLastNameTextbox(lastName);
-        String employeeID = addEmployeePage.getEmployeeIDValue();
-        addEmployeePage.clickToSaveButton();
+        employeeID = addEmployeePage.getEmployeeIDValue();
 
-        //Action of Personal Detail Page
-        personalDetailPage = new PersonalDetailPageObject(driver);
+        personalDetailPage = addEmployeePage.clickToSaveButton();
+
         Assert.assertTrue(personalDetailPage.isLoadingSpinnerDisappear(driver));
         personalDetailPage.sleepInSecond(4);
 
@@ -70,13 +62,20 @@ public class Login_04_Page_Object extends BaseTest {
 
     }
 
+    @Test
+    public void Employee_02_ContactDetail() {
+        contactDetailPage = personalDetailPage.openContactDetailsPage();
+        // tiếp tục viết các bước kiểm thử cho trang Contact Detail
+    }
+
     private WebDriver driver;
     private LoginPageObject loginPage;
     private DashboardPageObject dashboardPage;
     private EmployeeListPageObject employeeListPage;
     private AddEmployeePageObject addEmployeePage;
     private PersonalDetailPageObject personalDetailPage;
-    private String firstName, lastName, username, password;
+    private ContactDetailPageObject contactDetailPage;
+    private String firstName, lastName, username, password,employeeID;
 
     @AfterClass
     public void afterClass() {
