@@ -23,7 +23,7 @@ public class Login_06_Page_Manager_IV extends BaseTest {
     public void beforeClass(String browserName, String appURL) {
         this.appURL = appURL;
         driver = getBrowserDriver(browserName, appURL);
-        PageGeneratorGeneric.getPage(LoginPageObject.class, driver);
+        loginPage = PageGeneratorGeneric.getPage(LoginPageObject.class, driver);
         username= "hoangtinh";
         password= "Tinh@@111";
         firstName= "Automation";
@@ -64,7 +64,7 @@ public class Login_06_Page_Manager_IV extends BaseTest {
 
     @Test
     public void Employee_02_ContactDetail() {
-        contactDetailPage = personalDetailPage.openContactDetailsPage();
+        contactDetailPage = personalDetailPage.openContactDetailsPage(driver);
         // tiếp tục viết các bước kiểm thử cho trang Contact Detail
     }
 

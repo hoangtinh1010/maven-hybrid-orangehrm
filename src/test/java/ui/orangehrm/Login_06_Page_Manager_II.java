@@ -64,7 +64,7 @@ public class Login_06_Page_Manager_II extends BaseTest {
 
     @Test
     public void Employee_02_ContactDetail() {
-        contactDetailPage = personalDetailPage.openContactDetailsPage();
+        contactDetailPage = personalDetailPage.openContactDetailsPage(driver);
         // tiếp tục viết các bước kiểm thử cho trang Contact Detail
     }
 

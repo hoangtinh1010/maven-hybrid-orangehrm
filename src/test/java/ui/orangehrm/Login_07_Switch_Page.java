@@ -1,6 +1,5 @@
 package ui.orangehrm;
 
-//import các class/interface từ package khác
 
 import core.BaseTest;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +11,7 @@ import org.testng.annotations.Test;
 import pageObjects.*;
 
 
-//Cách 3: Dùng Page Generator Manager
-public class Login_06_Page_Manager_III extends BaseTest {
+public class Login_07_Switch_Page extends BaseTest {
     private String appURL;
     //Follow nghiệp vụ: (1) Login to system -> (2) Dashboard: Navigate to PIM page
     // -> (3) Emloyee List:  Add Employee -> (4) Personal Detail: Verify ->Edit Employee
@@ -23,16 +21,19 @@ public class Login_06_Page_Manager_III extends BaseTest {
     public void beforeClass(String browserName, String appURL) {
         this.appURL = appURL;
         driver = getBrowserDriver(browserName, appURL);
-        loginPage = PageGeneratorManager.getLoginPage(driver);
-        username= "hoangtinh";
-        password= "Tinh@@111";
-        firstName= "Automation";
-        lastName= "FC";
+        loginPage = PageGeneratorGeneric.getPage(LoginPageObject.class, driver);
+        username = "hoangtinh";
+        password = "Tinh@@111";
+        firstName = "Automation";
+        lastName = "Tinh";
     }
 
     @Test
     public void Employee_01_CreateNewEmployee() {
-
+        // Login cũng kế thừa BasePage nên nó cũng gọi các hàm này ra dùng được
+        // Chạy sẽ fail vì sai Busineess Logic
+        // 1 - Nguoi viết code phải nắm rõ Business Logic để viết code đúng/gọi trang đúng (ko gọi bừa bãi)
+        // 2 - Ràng buộc về mặt codeing (Bài sau)
 
         loginPage.enterToUsernameTextbox(username);
         loginPage.enterToPasswordTextbox(password);
@@ -58,14 +59,33 @@ public class Login_06_Page_Manager_III extends BaseTest {
         Assert.assertEquals(personalDetailPage.getFirstNameTextBoxValue(), firstName);
         Assert.assertEquals(personalDetailPage.getLastNameTextBoxValue(), lastName);
         Assert.assertEquals(personalDetailPage.getEmployeeIDTextBoxValue(), employeeID);
-        Assert.assertEquals(personalDetailPage.getDisplayedFullname(),firstName + " " + lastName);
+        Assert.assertEquals(personalDetailPage.getDisplayedFullname(), firstName + " " + lastName);
 
     }
 
     @Test
-    public void Employee_02_ContactDetail() {
+    public void Employee_02_Switch_Page() {
+        // Từ Personal qua Contact
         contactDetailPage = personalDetailPage.openContactDetailsPage(driver);
-        // tiếp tục viết các bước kiểm thử cho trang Contact Detail
+
+        // Từ Contact qua Job
+        jobPage = contactDetailPage.openJobPage(driver);
+
+        // Từ Job qua Dependent
+        dependentPage = jobPage.openDependentPage(driver);
+
+        // Từ Dependent qua Personal
+        personalDetailPage = dependentPage.openPersonalDetailPage(driver);
+
+        // Từ Job qua Personal
+        personalDetailPage = jobPage.openPersonalDetailPage(driver);
+
+        // Từ Personal qua Job
+        jobPage = personalDetailPage.openJobPage(driver);
+        dependentPage = personalDetailPage.openDependentPage(driver);
+
+
+
     }
 
     private WebDriver driver;
@@ -75,7 +95,9 @@ public class Login_06_Page_Manager_III extends BaseTest {
     private AddEmployeePageObject addEmployeePage;
     private PersonalDetailPageObject personalDetailPage;
     private ContactDetailPageObject contactDetailPage;
-    private String firstName, lastName, username, password,employeeID;
+    private JobPageObject jobPage;
+    private DependentPageObject dependentPage;
+    private String firstName, lastName, username, password, employeeID;
 
     @AfterClass
     public void afterClass() {

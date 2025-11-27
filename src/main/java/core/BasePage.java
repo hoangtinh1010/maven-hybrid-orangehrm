@@ -6,7 +6,8 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageUIs.BasePageUI;
+import pageObjects.*;
+import pageUIs.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -361,6 +362,63 @@ public class BasePage {
 
     public boolean isLoadingSpinnerDisappear(WebDriver driver) {
         return waitListElementInvisible(driver, BasePageUI.ICON_LOADING);
+    }
+
+    // 9 hàm để điều hướng sang 9 Page còn lại
+
+    public PersonalDetailPageObject openPersonalDetailPage(WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.PERSONAL_DETAIL_LINK);
+        clickToElement(driver, BasePageUI.PERSONAL_DETAIL_LINK);
+        return PageGeneratorGeneric.getPage(PersonalDetailPageObject.class, driver);
+    }
+
+    public ContactDetailPageObject openContactDetailsPage(WebDriver driver) {
+        waitElementClickable( driver, BasePageUI.CONTACT_DETAIL_LINK);
+        clickToElement( driver, BasePageUI.CONTACT_DETAIL_LINK);
+        return PageGeneratorGeneric.getPage(ContactDetailPageObject.class, driver);
+    }
+
+    public EmergencyContactPageObject openEmergencyContactPage(WebDriver driver) {
+        waitElementClickable( driver, BasePageUI.EMERGENCY_CONTACT_LINK);
+        clickToElement( driver, BasePageUI.EMERGENCY_CONTACT_LINK);
+        return PageGeneratorGeneric.getPage(EmergencyContactPageObject.class, driver);
+    }
+
+    public DependentPageObject openDependentPage(WebDriver driver) {
+        waitElementClickable( driver, BasePageUI.DEPENDENT_LINK);
+        clickToElement(driver, BasePageUI.DEPENDENT_LINK);
+        return PageGeneratorGeneric.getPage(DependentPageObject.class,driver) ;
+    }
+
+    public ImmigrationPageObject openImmigrationPage(WebDriver driver) {
+        waitElementClickable( driver, BasePageUI.IMMIGRATION_LINK);
+        clickToElement(driver, BasePageUI.IMMIGRATION_LINK);
+        return PageGeneratorGeneric.getPage(ImmigrationPageObject.class,driver) ;
+    }
+
+    public JobPageObject openJobPage(WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.JOB_LINK);
+        clickToElement(driver, BasePageUI.JOB_LINK);
+        return PageGeneratorGeneric.getPage(JobPageObject.class, driver);
+    }    public SalaryPageObject openSalaryPage (WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.SALARY_LINK);
+        clickToElement(driver, BasePageUI.SALARY_LINK);
+        return PageGeneratorGeneric.getPage(SalaryPageObject.class, driver);
+    }
+
+   public ReportToPageObject openReportToPage (WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.REPORT_TO_LINK);
+        clickToElement(driver, BasePageUI.REPORT_TO_LINK);
+        return PageGeneratorGeneric.getPage(ReportToPageObject.class, driver);
+    }  public QualificationPageObject openQualificationPage (WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.QUALIFICATION_LINK);
+        clickToElement(driver, BasePageUI.QUALIFICATION_LINK);
+        return PageGeneratorGeneric.getPage(QualificationPageObject.class, driver);
+    }
+    public MembershipPageObject openMembershipPage (WebDriver driver) {
+        waitElementClickable(driver, BasePageUI.MEMBERSHIP_LINK);
+        clickToElement(driver, BasePageUI.MEMBERSHIP_LINK);
+        return PageGeneratorGeneric.getPage(MembershipPageObject.class, driver);
     }
 
     private final int SHORT_TIMEOUT =10;

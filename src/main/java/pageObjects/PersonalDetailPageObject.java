@@ -7,7 +7,7 @@ import pageUIs.PersonalDetailPageUI;
 public class PersonalDetailPageObject extends BasePage {
     private WebDriver driver;
 
-    public PersonalDetailPageObject(WebDriver driver) {
+    public PersonalDetailPageObject( WebDriver driver) {
         this.driver = driver;
     }
 
@@ -31,7 +31,6 @@ public class PersonalDetailPageObject extends BasePage {
         return getElementText(driver, PersonalDetailPageUI.DISPLAYED_FULLNAME);
     }
 
-    public ContactDetailPageObject openContactDetailsPage() {
-        return new ContactDetailPageObject(driver);
-    }
+
+
 }
