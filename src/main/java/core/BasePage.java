@@ -6,8 +6,13 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageObjects.*;
-import pageUIs.*;
+import pageObjects.PageGenerator;
+import pageObjects.openCart.admin.AdminDashboardPO;
+import pageObjects.openCart.admin.AdminLoginPO;
+import pageObjects.openCart.user.UserHomePO;
+import pageUIs.openCart.admin.AdminBasePageUI;
+import pageUIs.openCart.user.UserBasePageUI;
+import pageUIs.orangeHRM.BasePageUI;
 
 import java.time.Duration;
 import java.util.List;
@@ -94,11 +99,20 @@ public class BasePage {
             e.printStackTrace();
         }
     }
+    public String getCurrentWindowID(WebDriver driver) {
+        return driver.getWindowHandle();
+    }
+
+    public void openUrlByNewTab(WebDriver driver, String url) {
+        driver.switchTo().newWindow(WindowType.TAB).get(url);
+    }
+    public void openUrlByNewWindow(WebDriver driver, String url) {
+        driver.switchTo().newWindow(WindowType.WINDOW).get(url);
+    }
 
     public void switchToWindowByID(WebDriver driver, String currentWindowID) {
 
         Set<String> allWindows = driver.getWindowHandles();
-
         for (String id : allWindows) {
             if (!id.equals(currentWindowID)) {
                 driver.switchTo().window(id);
@@ -149,10 +163,36 @@ public class BasePage {
         return By.xpath(locator);
     }
 
+    private By getByLocator(String locatorType) {
+
+        if (locatorType==null || locatorType.isEmpty()) {
+            throw new IllegalArgumentException("Locator type cannot be null or empty. Please check again!");
+        }
+        
+        String[] locatorArr = locatorType.split("=",2);
+        String locatorPrefix = locatorArr[0].trim();
+        String locatorValue = locatorArr[1];
+
+        switch (locatorPrefix.toLowerCase()) {
+            case "id":
+                return By.id(locatorValue);
+            case "name":
+                return By.name(locatorValue);
+            case "css":
+                return By.cssSelector(locatorValue);
+            case "xpath":
+                return By.xpath(locatorValue);
+            default:
+                throw new IllegalArgumentException("Locator type is not supported: " + locatorType);
+        }
+    }
+
     private WebElement getWebElement(WebDriver driver, String locator) {
-        return driver.findElement(getByXpath(locator));
-    }   private List<WebElement> getListElement(WebDriver driver, String locator) {
-        return driver.findElements(getByXpath(locator));
+        return driver.findElement(getByLocator(locator));
+    }
+
+    private List<WebElement> getListElement(WebDriver driver, String locator) {
+        return driver.findElements(getByLocator(locator));
     }
 
     public void clickToElement(WebDriver driver, String locator) {
@@ -322,27 +362,27 @@ public class BasePage {
 
     public WebElement waitElementVisible(WebDriver driver, String locator) {
        return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
+                .until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
     }
 
     public List<WebElement> waitListElementVisible(WebDriver driver, String locator) {
          return new  WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(getByXpath(locator)));
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(getByLocator(locator)));
     }
 
     public boolean waitElementSelected(WebDriver driver, String locator) {
        return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.elementToBeSelected(getByXpath(locator)));
+                .until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
     }
 
     public WebElement waitElementClickable(WebDriver driver, String locator) {
         return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.elementToBeClickable(getByXpath(locator)));
+                .until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
     }
 
     public boolean waitElementInvisible(WebDriver driver, String locator) {
        return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.invisibilityOfElementLocated(getByXpath(locator)));
+                .until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
     }
 
     public boolean waitListElementInvisible(WebDriver driver, String locator) {
@@ -352,77 +392,61 @@ public class BasePage {
 
     public WebElement waitElementPresent(WebDriver driver, String locator) {
         return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.presenceOfElementLocated(getByXpath(locator)));
+                .until(ExpectedConditions.presenceOfElementLocated(getByLocator(locator)));
     }
 
     public List<WebElement>  waitListElementPresent(WebDriver driver, String locator) {
          return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByXpath(locator)));
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(locator)));
     }
 
+    // OrangeHRM
     public boolean isLoadingSpinnerDisappear(WebDriver driver) {
         return waitListElementInvisible(driver, BasePageUI.ICON_LOADING);
     }
 
-    // 9 hàm để điều hướng sang 9 Page còn lại
+    // OpenCart
+    public UserHomePO clickLogoutLinkAtUserSite(WebDriver driver) {
+        // Wait to Logout link visible
+        // Click to Logout link
+        // Wait to Continue button visible
+        // Click to Continue button
+        waitElementVisible(driver, UserBasePageUI.MY_ACCOUNT_HEADER);
+        clickToElement(driver, UserBasePageUI.MY_ACCOUNT_HEADER);
 
-    public PersonalDetailPageObject openPersonalDetailPage(WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.PERSONAL_DETAIL_LINK);
-        clickToElement(driver, BasePageUI.PERSONAL_DETAIL_LINK);
-        return PageGeneratorGeneric.getPage(PersonalDetailPageObject.class, driver);
+        waitElementVisible(driver, UserBasePageUI.LOGOUT_LINK_ITEM);
+        clickToElement(driver, UserBasePageUI.LOGOUT_LINK_ITEM);
+
+        waitElementVisible(driver, UserBasePageUI.CONTINUE_BUTTON);
+        clickToElement(driver, UserBasePageUI.CONTINUE_BUTTON);
+     return PageGenerator.getPage(UserHomePO.class, driver);
     }
+    public AdminLoginPO clickLogoutLinkAtAdminSite(WebDriver driver) {
+        // Wait to Logout link visible
+        // Click to Logout link
 
-    public ContactDetailPageObject openContactDetailsPage(WebDriver driver) {
-        waitElementClickable( driver, BasePageUI.CONTACT_DETAIL_LINK);
-        clickToElement( driver, BasePageUI.CONTACT_DETAIL_LINK);
-        return PageGeneratorGeneric.getPage(ContactDetailPageObject.class, driver);
+        waitElementVisible(driver, AdminBasePageUI.LOGOUT_BUTTON);
+        clickToElement(driver, AdminBasePageUI.LOGOUT_BUTTON);
+        return PageGenerator.getPage(AdminLoginPO.class, driver);
     }
-
-    public EmergencyContactPageObject openEmergencyContactPage(WebDriver driver) {
-        waitElementClickable( driver, BasePageUI.EMERGENCY_CONTACT_LINK);
-        clickToElement( driver, BasePageUI.EMERGENCY_CONTACT_LINK);
-        return PageGeneratorGeneric.getPage(EmergencyContactPageObject.class, driver);
+    public void openAdminSite(WebDriver driver,String adminURL) {
+        openPageUrl(driver, adminURL);
     }
-
-    public DependentPageObject openDependentPage(WebDriver driver) {
-        waitElementClickable( driver, BasePageUI.DEPENDENT_LINK);
-        clickToElement(driver, BasePageUI.DEPENDENT_LINK);
-        return PageGeneratorGeneric.getPage(DependentPageObject.class,driver) ;
+    public UserHomePO openUserSite(WebDriver driver,String userURL) {
+        openPageUrl(driver, userURL);
+        return PageGenerator.getPage(UserHomePO.class, driver);
     }
-
-    public ImmigrationPageObject openImmigrationPage(WebDriver driver) {
-        waitElementClickable( driver, BasePageUI.IMMIGRATION_LINK);
-        clickToElement(driver, BasePageUI.IMMIGRATION_LINK);
-        return PageGeneratorGeneric.getPage(ImmigrationPageObject.class,driver) ;
-    }
-
-    public JobPageObject openJobPage(WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.JOB_LINK);
-        clickToElement(driver, BasePageUI.JOB_LINK);
-        return PageGeneratorGeneric.getPage(JobPageObject.class, driver);
-    }    public SalaryPageObject openSalaryPage (WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.SALARY_LINK);
-        clickToElement(driver, BasePageUI.SALARY_LINK);
-        return PageGeneratorGeneric.getPage(SalaryPageObject.class, driver);
+    public UserHomePO openUserHomeLogo(WebDriver driver) {
+        waitElementClickable(driver, UserBasePageUI.LOGO);
+        clickToElement(driver, UserBasePageUI.LOGO);
+        return PageGenerator.getPage(UserHomePO.class, driver);
     }
 
-   public ReportToPageObject openReportToPage (WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.REPORT_TO_LINK);
-        clickToElement(driver, BasePageUI.REPORT_TO_LINK);
-        return PageGeneratorGeneric.getPage(ReportToPageObject.class, driver);
-    }  public QualificationPageObject openQualificationPage (WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.QUALIFICATION_LINK);
-        clickToElement(driver, BasePageUI.QUALIFICATION_LINK);
-        return PageGeneratorGeneric.getPage(QualificationPageObject.class, driver);
-    }
-    public MembershipPageObject openMembershipPage (WebDriver driver) {
-        waitElementClickable(driver, BasePageUI.MEMBERSHIP_LINK);
-        clickToElement(driver, BasePageUI.MEMBERSHIP_LINK);
-        return PageGeneratorGeneric.getPage(MembershipPageObject.class, driver);
-    }
 
     private final int SHORT_TIMEOUT =10;
     private final int LONG_TIMEOUT = 30;
+
+
 
 }
 

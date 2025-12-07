@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class BaseTest {
     WebDriver driver;
@@ -47,16 +48,25 @@ public class BaseTest {
                 throw new RuntimeException("Please enter valid browser name or not supported");
         }
         driver.get(appURL);
-        driver.manage().window().setPosition(new Point(0,0));
-        driver.manage().window().maximize();
+//        driver.manage().window().setPosition(new Point(0,0));
+//        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         return driver;
     }
 
-    public void closeBrowser() {
+    protected void closeBrowser() {
         if (!(driver == null)) {
             driver.quit();
         }
+    }
+    protected void closeBrowser(WebDriver driver) {
+        if (!(driver == null)) {
+            driver.quit();
+        }
+    }
+
+    protected int getRandomNumber() {
+        return  new Random().nextInt(9999);
     }
 
 }

@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name=" Open Cart - UI Automation Test" verbose="1">
+
+    <parameter name="userURL" value="http://localhost:90/opencart/"/>
+    <parameter name="adminURL" value="http://localhost:90/opencart/adminsite/"/>
+
+    <test name="Run on FIREFOX Browser">
+        <parameter name="browser" value="Firefox"></parameter>
+        <classes>
+            <class name="ui.openCart.Level_10_Multiple_Driver"/>
+        </classes>
+    </test>
+</suite>
