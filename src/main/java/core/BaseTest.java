@@ -50,7 +50,7 @@ public class BaseTest {
         driver.get(appURL);
 //        driver.manage().window().setPosition(new Point(0,0));
 //        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
         return driver;
     }
 

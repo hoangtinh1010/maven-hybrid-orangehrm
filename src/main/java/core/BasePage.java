@@ -443,8 +443,8 @@ public class BasePage {
     }
 
 
-    private final int SHORT_TIMEOUT =10;
-    private final int LONG_TIMEOUT = 30;
+    private int SHORT_TIMEOUT =GlobalConstants.SHORT_TIMEOUT;
+    private  int LONG_TIMEOUT = GlobalConstants.LONG_TIMEOUT;
 
 
 
