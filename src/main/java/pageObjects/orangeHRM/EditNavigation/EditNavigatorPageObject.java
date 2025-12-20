@@ -10,7 +10,7 @@ public class EditNavigatorPageObject extends BasePage {
     public EditNavigatorPageObject(WebDriver driver) {
         this.driver = driver;
     }
-    // 9 Page (hàm) nằm trong Edit Employee Navigation
+    // /cách 1: 10 hàm cho 10 page  nằm trong Edit Employee Navigation
     public PersonalDetailPageObject openPersonalDetailPage() {
         waitElementClickable(driver, EditNavigatorPageUI.PERSONAL_DETAIL_LINK);
         clickToElement(driver, EditNavigatorPageUI.PERSONAL_DETAIL_LINK);
@@ -65,4 +65,40 @@ public class EditNavigatorPageObject extends BasePage {
         clickToElement(driver, EditNavigatorPageUI.MEMBERSHIP_LINK);
         return PageGenerator.getPage(MembershipPageObject.class, driver);
     }
+
+    // cách 2: 1 hàm động cho tất cả các page (tab)  - Switch case
+    public EditNavigatorPageObject openEditNavigatorPageByName(String pageName) {
+        waitElementClickable(driver, EditNavigatorPageUI.DYNAMIC_LINK_BY_PAGE_NAME, pageName);
+        clickToElement(driver, EditNavigatorPageUI.DYNAMIC_LINK_BY_PAGE_NAME, pageName);
+        switch (pageName) {
+            case "Personal Details":
+                return PageGenerator.getPage(PersonalDetailPageObject.class, driver);
+            case "Contact Details":
+                return PageGenerator.getPage(ContactDetailPageObject.class, driver);
+            case "Emergency Contacts":
+                return PageGenerator.getPage(EmergencyContactPageObject.class, driver);
+            case "Dependents":
+                return PageGenerator.getPage(DependentPageObject.class, driver);
+            case "Job":
+                return PageGenerator.getPage(JobPageObject.class, driver);
+            case "Salary":
+                return PageGenerator.getPage(SalaryPageObject.class, driver);
+            case "Report-to":
+                return PageGenerator.getPage(ReportToPageObject.class, driver);
+            case "Qualifications":
+                return PageGenerator.getPage(QualificationPageObject.class, driver);
+            case "Membership":
+                return PageGenerator.getPage(MembershipPageObject.class, driver);
+            default:
+                throw new RuntimeException("Invalid page name at Edit Navigator");
+
+        }
+    }
+
+    //Cách 3: 1 hàm động cho tất cả các page (tab) - Không cần switch case
+    public void openEditNavigatorByName (String pageName) {
+        waitElementClickable(driver, EditNavigatorPageUI.DYNAMIC_LINK_BY_PAGE_NAME, pageName);
+        clickToElement(driver, EditNavigatorPageUI.DYNAMIC_LINK_BY_PAGE_NAME, pageName);
+    }
+
 }
