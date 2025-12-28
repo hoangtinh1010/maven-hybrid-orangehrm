@@ -196,8 +196,11 @@ public class BasePage {
         return driver.findElement(getByLocator(locator));
     }
 
-    private List<WebElement> getListElement(WebDriver driver, String locator) {
+    protected List<WebElement> getListElement(WebDriver driver, String locator) {
         return driver.findElements(getByLocator(locator));
+    }
+    protected List<WebElement> getListElement(WebDriver driver, String locator, String... restValue) {
+        return driver.findElements(getByLocator(castParameter( locator, restValue)));
     }
 
 
@@ -209,11 +212,13 @@ public class BasePage {
         getWebElement(driver,castParameter( locator, restValue)).click();
     }
 
-    public void sendKeyToElement(WebDriver driver, String locator, String keyToSend) {
+    public void sendKeyToElement(WebDriver driver, String locator, CharSequence keyToSend) {
+        getWebElement(driver,locator).clear();
         getWebElement(driver,locator).sendKeys(keyToSend);
     }
 
-    public void sendKeyToElement(WebDriver driver, String locator, String keyToSend, String... restValue) {
+    public void sendKeyToElement(WebDriver driver, String locator, CharSequence keyToSend, String... restValue) {
+        getWebElement(driver,castParameter( locator, restValue)).clear();
         getWebElement(driver,castParameter( locator, restValue)).sendKeys(keyToSend);
     }
 
@@ -310,6 +315,10 @@ public class BasePage {
 
     public int getListElementNumber(WebDriver driver, String locator) {
        return getListElement(driver,locator).size();
+    }
+
+    public int getListElementNumber(WebDriver driver, String locator, String... restValue) {
+       return getListElement(driver,castParameter( locator, restValue)).size();
     }
 
     public void checkToCheckbox(WebDriver driver, String locator) {
