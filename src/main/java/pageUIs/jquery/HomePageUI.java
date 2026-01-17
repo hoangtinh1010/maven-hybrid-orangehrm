@@ -1,6 +1,8 @@
 package pageUIs.jquery;
 
 public class HomePageUI {
+
+    //jquery table
     public static final String DYNAMIC_PAGE_BY_NUMBER =  "xpath=//li[@class='qgrd-pagination-page']/a[text()='%s']";
     public static final String DYNAMIC_PAGE_ACTIVED_BY_NUMBER = "xpath=//li[@class='qgrd-pagination-page']//a[@class='qgrd-pagination-page-link active' and text()='%s']";
     public static final String DYNAMIC_HEADER_HEADER_TEXTBOX_BY_NAME = "xpath=//div[text()='%s']/parent::div/following-sibling::input";
@@ -14,8 +16,12 @@ public class HomePageUI {
     public static final String DYNAMIC_CHECKBOX_BY_ROW_INDEX_AND_COLUMN_INDEX = "xpath=//tr[%s]/td[%s]//input[@type='checkbox']";
     public static final String DYNAMIC_ACTION_BY_ROW_INDEX = "xpath=//tr[%s]//p[@class='control']/button[contains(@title,'%s')]";
 
-    //jquery
     public static final String ALL_PAGE = "xpath=//li[@class='qgrd-pagination-page']/a";
     public static final String DYNAMIC_INDEX_BY_COLUMN_NAME = "xpath=//div[text()='%s']/ancestor::th/preceding-sibling::th";
     public static final String DYNAMIC_COLUMN_INDEX = "xpath=//td[%s]";
+
+    //JQuery Upload File
+    public static final String IS_FILE_LOADED = "xpath=//p[@class='name' and text()='%s']";
+    public static final String START_UPLOAD_BUTTON = "css=table button.start";
+    public static final String IS_FILE_UPLOADED = "xpath=//a[text()='%s' and contains(@download,'%s')]";
 }

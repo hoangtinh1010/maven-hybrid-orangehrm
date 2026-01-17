@@ -94,4 +94,26 @@ public class HomePageObject extends BasePage {
         return columnAllValue;
     }
 
+    public void clickToStartButton() {
+        List<WebElement> startButtons = getListElement(driver, HomePageUI.START_UPLOAD_BUTTON);
+
+        for (WebElement startButton : startButtons) {
+            waitElementClickable(driver, startButton);
+            startButton.click();
+            sleepInSecond(2);
+        }
+
+
+
+    }
+
+    public boolean isFileLoadedByName(String fileName) {
+        waitElementVisible(driver, HomePageUI.IS_FILE_LOADED, fileName);
+        return isElementDisplayed(driver, HomePageUI.IS_FILE_LOADED, fileName);
+    }
+
+    public boolean isFileUploadedByName(String anh1FileName) {
+        waitElementVisible(driver, HomePageUI.IS_FILE_UPLOADED, anh1FileName, anh1FileName);
+        return isElementDisplayed(driver, HomePageUI.IS_FILE_UPLOADED, anh1FileName, anh1FileName);
+    }
 }

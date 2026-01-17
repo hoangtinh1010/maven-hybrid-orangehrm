@@ -7,12 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.PageGenerator;
-import pageObjects.openCart.admin.AdminDashboardPO;
 import pageObjects.openCart.admin.AdminLoginPO;
 import pageObjects.openCart.user.UserHomePO;
 import pageUIs.openCart.admin.AdminBasePageUI;
 import pageUIs.openCart.user.UserBasePageUI;
 import pageUIs.orangeHRM.BasePageUI;
+import pageUIs.jquery.BasePageUI_II;
 
 import java.time.Duration;
 import java.util.List;
@@ -194,6 +194,10 @@ public class BasePage {
 
     private WebElement getWebElement(WebDriver driver, String locator) {
         return driver.findElement(getByLocator(locator));
+    }
+
+    private WebElement getWebElement(WebDriver driver, String locator, String... restValue) {
+        return driver.findElement(getByLocator(castParameter( locator, restValue)));
     }
 
     protected List<WebElement> getListElement(WebDriver driver, String locator) {
@@ -470,9 +474,15 @@ public class BasePage {
                 .until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
     }
 
+
     public WebElement waitElementClickable(WebDriver driver, String locator, String... restValue) {
         return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
                 .until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter( locator, restValue))));
+    }
+
+    public WebElement waitElementClickable(WebDriver driver, WebElement element) {
+        return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
+                .until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public boolean waitElementInvisible(WebDriver driver, String locator) {
@@ -493,6 +503,15 @@ public class BasePage {
     public List<WebElement>  waitListElementPresent(WebDriver driver, String locator) {
          return new WebDriverWait(driver, Duration.ofSeconds(LONG_TIMEOUT))
                 .until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(locator)));
+    }
+
+    public void uploadMultipleFiles(WebDriver driver, String... fileNames) {
+        String filePath = GlobalConstants.UPLOAD_PATH;
+        String fullFileName = "";
+        for (String file : fileNames) {
+            fullFileName = fullFileName + filePath + file + "\n";
+        }
+        getWebElement(driver, BasePageUI_II.UPLOAD_FILE_TYPE).sendKeys(fullFileName.trim());
     }
 
     // OrangeHRM
